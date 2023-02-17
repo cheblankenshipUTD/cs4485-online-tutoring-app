@@ -20,52 +20,55 @@ export default class App extends Component {
       <div>
         <Navbar bg="primary" variant="dark">
           <Container>
-            <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+            <Navbar.Brand href="#home">UTD TUTOR</Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
+              <Nav.Link href="#tutors">Tutors</Nav.Link>
+              <Nav.Link href="subjects">Subjects</Nav.Link>
+              <Nav.Link href="appointments">Appointments</Nav.Link>
+              <Nav.Link href="favorites">Favorites</Nav.Link>
+              <Nav.Link href="becomeatutor">Become a Tutor</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
         <br></br>
     
-        <h2 style={{"textAlign": "center"}}>Recommended Tutors</h2>
+        <h2 style={{"textAlign": "center"}}>Tutors For Popular Subjects</h2>
         <Container>
           <Row style={{"padding": "30px"}}>
             <Col xs="4">
               <Card>
-                <Card.Header>Bob</Card.Header>
+                <Card.Header>Sarah Tran</Card.Header>
                 <Card.Body>
-                  <Card.Title>Math 1314</Card.Title>
+                  <Card.Title>CS 3377</Card.Title>
                   <Card.Text>
-                    4.1/5
+                    4.1/5, 16 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs="4">
               <Card>
-                <Card.Header>Bob jr.</Card.Header>
+                <Card.Header>Randy Ran</Card.Header>
                 <Card.Body>
-                  <Card.Title>CS 1337/1336</Card.Title>
+                  <Card.Title>MATH 1200</Card.Title>
                   <Card.Text>
-                    3.2/5
+                    3.2/5, 10 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs="4">
               <Card>
-                <Card.Header>Bob Sr.</Card.Header>
+                <Card.Header>John Lee</Card.Header>
                 <Card.Body>
-                  <Card.Title>ART 1301</Card.Title>
+                  <Card.Title>CS 2499</Card.Title>
                   <Card.Text>
-                    5/5
+                    5/5, 5 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -73,37 +76,37 @@ export default class App extends Component {
           <Row style={{"padding": "30px"}}>
             <Col xs="4">
               <Card>
-                <Card.Header>Alice</Card.Header>
+                <Card.Header>Alex Shaw</Card.Header>
                 <Card.Body>
-                  <Card.Title>HIST 1301</Card.Title>
+                  <Card.Title>GEO 3309</Card.Title>
                   <Card.Text>
-                    5/5
+                    4/5, 8 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs="4">
               <Card>
-                <Card.Header>Alice Jr.</Card.Header>
+                <Card.Header>Tracey Helix</Card.Header>
                 <Card.Body>
                   <Card.Title>CHEM 2315</Card.Title>
                   <Card.Text>
-                    1.2/5
+                    1.2/5, 11 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
             <Col xs="4">
               <Card>
-                <Card.Header>Alice Jr.Jr.</Card.Header>
+                <Card.Header>Sharice Johnson</Card.Header>
                 <Card.Body>
                   <Card.Title>GOVT 3314</Card.Title>
                   <Card.Text>
-                    3.3/5
+                    3.3/5, 7 reviews
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Button variant="primary">Schedule</Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -118,7 +121,7 @@ export default class App extends Component {
               <Card>
                 <Card.Header>Appintment #49583</Card.Header>
                 <Card.Body>
-                  <Card.Title>HIST 1301 with Bob</Card.Title>
+                  <Card.Title>HIST 1301 with Ryan</Card.Title>
                   <Card.Text>
                     <p>Zoom link : https://zoom.us/</p>
                     <p>Time: 3:00 pm - 3:45 pm</p>
@@ -131,7 +134,7 @@ export default class App extends Component {
               <Card>
                 <Card.Header>Appintment #74294</Card.Header>
                 <Card.Body>
-                  <Card.Title>MATH 2413 with Alice Jr.Jr.</Card.Title>
+                  <Card.Title>MATH 2413 with Alice</Card.Title>
                   <Card.Text>
                     <p>Zoom link : https://zoom.us/</p>
                     <p>Time: 5:00 pm - 5:45 pm</p>
@@ -149,7 +152,9 @@ export default class App extends Component {
         <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
           <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
             <div className='me-5 d-none d-lg-block'>
-              <span>Get connected with us on social networks:</span>
+              <span>
+                Get connected with us on social networks: put clickable links (and logos?) to Instagram, Facebook, and Twitter here
+              </span>
             </div>
 
             <div>
@@ -180,43 +185,28 @@ export default class App extends Component {
                 <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
                   <h6 className='text-uppercase fw-bold mb-4'>
                     <MDBIcon icon="gem" className="me-3" />
-                    Company name
+                    UTD tutor
                   </h6>
                   <p>
-                    Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                    consectetur adipisicing elit.
+                    Logo goes here.
                   </p>
                 </MDBCol>
 
                 <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
+                  <h6 className='text-uppercase fw-bold mb-4'>Support</h6>
                   <p>
                     <a href='#!' className='text-reset'>
-                      Angular
+                      Report
                     </a>
                   </p>
                   <p>
                     <a href='#!' className='text-reset'>
-                      React
+                      Suggestions
                     </a>
                   </p>
                   <p>
                     <a href='#!' className='text-reset'>
-                      Vue
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Laravel
-                    </a>
-                  </p>
-                </MDBCol>
-
-                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Pricing
+                      Tutoring Tips
                     </a>
                   </p>
                   <p>
@@ -224,9 +214,23 @@ export default class App extends Component {
                       Settings
                     </a>
                   </p>
+                </MDBCol>
+
+                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>About us</h6>
                   <p>
                     <a href='#!' className='text-reset'>
-                      Orders
+                      Our Story
+                    </a>
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Blogs
+                    </a>
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      News
                     </a>
                   </p>
                   <p>
@@ -258,7 +262,7 @@ export default class App extends Component {
           </section>
 
           <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-            © 2021 Copyright:
+            © 2023 UTD TUTOR: All Rights Reserved. 
             <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
               MDBootstrap.com
             </a>
