@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.bg-headOrange {
+  background-color: #D78C47;
+}
+
+.bg-bottomOrange {
+  background-color: #C9803C;
+}
+
+.div-1 {
+    background-color: #BCD4DE;
+}

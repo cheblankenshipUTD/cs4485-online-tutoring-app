@@ -18,12 +18,13 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <Navbar bg="primary" variant="dark">
+      <div className='div-1'>
+        <Navbar bg="headOrange" variant="dark">
           <Container>
+            <img src={logo} alt="logo" width="50" height="50"/>
+            &nbsp; &nbsp; 
             <Navbar.Brand href="#home">UTD TUTOR</Navbar.Brand>
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#tutors">Tutors</Nav.Link>
               <Nav.Link href="subjects">Subjects</Nav.Link>
               <Nav.Link href="appointments">Appointments</Nav.Link>
@@ -32,13 +33,14 @@ export default class App extends Component {
             </Nav>
           </Container>
         </Navbar>
+
         <br></br>
-    
+        
         <h2 style={{"textAlign": "center"}}>Tutors For Popular Subjects</h2>
         <Container>
-          <Row style={{"padding": "30px"}}>
+          <Row style={{"padding": "30px", backgroundColor: "#ADE377", borderRadius: "25px"}}>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Sarah Tran</Card.Header>
                 <Card.Body>
                   <Card.Title>CS 3377</Card.Title>
@@ -50,7 +52,7 @@ export default class App extends Component {
               </Card>
             </Col>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Randy Ran</Card.Header>
                 <Card.Body>
                   <Card.Title>MATH 1200</Card.Title>
@@ -62,7 +64,7 @@ export default class App extends Component {
               </Card>
             </Col>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>John Lee</Card.Header>
                 <Card.Body>
                   <Card.Title>CS 2499</Card.Title>
@@ -74,9 +76,9 @@ export default class App extends Component {
               </Card>
             </Col>
           </Row>
-          <Row style={{"padding": "30px"}}>
+          <Row style={{"padding": "30px", backgroundColor: "#ADE377", borderRadius: "25px"}}>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Alex Shaw</Card.Header>
                 <Card.Body>
                   <Card.Title>GEO 3309</Card.Title>
@@ -88,7 +90,7 @@ export default class App extends Component {
               </Card>
             </Col>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Tracey Helix</Card.Header>
                 <Card.Body>
                   <Card.Title>CHEM 2315</Card.Title>
@@ -100,7 +102,7 @@ export default class App extends Component {
               </Card>
             </Col>
             <Col xs="4">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Sharice Johnson</Card.Header>
                 <Card.Body>
                   <Card.Title>GOVT 3314</Card.Title>
@@ -114,12 +116,14 @@ export default class App extends Component {
           </Row>
         </Container>
         
+        <br></br>
+        
         <h2 style={{"textAlign": "center"}}>Upcomming Appointments</h2>
         <div>
         <Container>
-          <Row style={{"padding": "30px"}}>
+          <Row style={{"padding": "30px", backgroundColor: "#ADE377", borderRadius: "25px"}}>
             <Col xs="5">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Appintment #49583</Card.Header>
                 <Card.Body>
                   <Card.Title>HIST 1301 with Ryan</Card.Title>
@@ -132,7 +136,7 @@ export default class App extends Component {
               </Card>
             </Col>
             <Col xs="5">
-              <Card>
+              <Card style={{ backgroundColor: "#FEA150", color: "white", borderRadius: "25px" }}>
                 <Card.Header>Appintment #74294</Card.Header>
                 <Card.Body>
                   <Card.Title>MATH 2413 with Alice</Card.Title>
@@ -148,13 +152,13 @@ export default class App extends Component {
         </Container>
         </div>
 
+        <br></br>
 
-
-        <MDBFooter className='text-center text-lg-start text-muted border-top' style={{ backgroundColor: "#D78C47"}}>
+        <MDBFooter bgColor='headOrange' className='text-center text-lg-start text-white border-top'>
           <section className=''>
             <MDBContainer className='text-center text-md-start mt-5'>
               <MDBRow className='mt-3'>
-                <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4 ' style={{ color: "#FFFFFF" }}>
+                <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4 '>
                   <h6 className='text-uppercase fw-bold mb-4'>
                     <img src={footerLogo} alt="logo" />
                   </h6>
@@ -163,7 +167,7 @@ export default class App extends Component {
                   </p>
                 </MDBCol>
 
-                <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4' style={{ color: "#FFFFFF" }}>
+                <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
                   <h6 className='text-uppercase fw-bold mb-4'>Support</h6>
                   <p>
                     <a href='#!' className='text-reset'>
@@ -187,7 +191,7 @@ export default class App extends Component {
                   </p>
                 </MDBCol>
 
-                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4' style={{ color: "#FFFFFF" }}>
+                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
                   <h6 className='text-uppercase fw-bold mb-4'>About Us</h6>
                   <p>
                     <a href='#!' className='text-reset'>
@@ -214,7 +218,7 @@ export default class App extends Component {
             </MDBContainer>
           </section>
 
-          <div className='text-center p-4' style={{ backgroundColor: "#C9803C", color: "#FFFFFF" }}>
+          <div className='text-center p-4' style={{ backgroundColor: "#C9803C" }}>
             © 2023 UTD TUTOR. All Rights Reserved.
           </div>
         </MDBFooter>
