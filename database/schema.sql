@@ -79,7 +79,7 @@ CREATE TABLE tutors_times (
   		REFERENCES tutors (tutor_id)
 );
 
-CREATE TABLE appointments(
+CREATE TABLE appointments (
     appointment_ID INT NOT NULL AUTO_INCREMENT,
     appointment_name VARCHAR(255),
     user_id INT NOT NULL,
