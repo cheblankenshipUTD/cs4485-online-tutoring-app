@@ -78,3 +78,18 @@ CREATE TABLE tutors_times (
   	FOREIGN KEY (tutor_id)
   		REFERENCES tutors (tutor_id)
 );
+
+CREATE TABLE appointments(
+    appointment_ID INT NOT NULL AUTO_INCREMENT,
+    appointment_name VARCHAR(255),
+    user_id INT NOT NULL,
+    tutor_id INT NOT NULL,
+    course_id INT NOT NULL,
+    Zoom_URL VARCHAR(255),
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    PRIMARY KEY(appointment_id),
+    FOREIGN KEY(user_id)REFERENCES users(user_id),
+    FOREIGN KEY(tutor_id)REFERENCES tutors(tutor_id),
+    FOREIGN KEY(course_id)REFERENCES courses(course_id)
+);
