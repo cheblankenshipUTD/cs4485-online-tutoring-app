@@ -1,24 +1,67 @@
-const express = require('express');
+const connection = require("./DB/connection");
+const express = require("express");
 const app = express();
-
 
 // Test api path
 app.get("/api", (req, res) => {
-    res.json({'users': ['userOne', 'userTwo', 'userThree']})
-})
+  res.json({ users: ["userOne", "userTwo", "userThree"] });
+
+  //  Example query
+  /*const sql = "select * from people";
+  connection.query(sql, (error, result) => {
+    if (error) throw error;
+
+    res.json({ tutors: result });
+  });*/
+});
 
 // List all tutors
 app.get("/tutors", (req, res) => {
-    res.json({
-        'tutors': [
-            {'name': 'John Lee', 'rate': 4.9, 'numberOfReviews': 3, 'courseTitle': 'CS 2449', 'profileURL': 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/John.png'},
-            {'name': 'Randy Lee', 'rate': 1.1, 'numberOfReviews': 23, 'courseTitle': 'MATH 1337', 'profileURL': 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Sarah.png'},
-            {'name': 'Sarahg Lee', 'rate': 2.1, 'numberOfReviews': 45, 'courseTitle': 'CS 4349', 'profileURL': 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Alex.png'},
-            {'name': 'Scharic Lee', 'rate': 4.3, 'numberOfReviews': 11, 'courseTitle': 'HIST 1301', 'profileURL': 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Randy.png'},
-            {'name': 'Alex Lee', 'rate': 2.3, 'numberOfReviews': 15, 'courseTitle': 'IT 2300', 'profileURL': 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Sharice.png'}
-        ]
-    })
-})
+  res.json({
+    tutors: [
+      {
+        name: "John Lee",
+        rate: 4.9,
+        numberOfReviews: 3,
+        courseTitle: "CS 2449",
+        profileURL:
+          "https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/John.png",
+      },
+      {
+        name: "Randy Lee",
+        rate: 1.1,
+        numberOfReviews: 23,
+        courseTitle: "MATH 1337",
+        profileURL:
+          "https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Sarah.png",
+      },
+      {
+        name: "Sarahg Lee",
+        rate: 2.1,
+        numberOfReviews: 45,
+        courseTitle: "CS 4349",
+        profileURL:
+          "https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Alex.png",
+      },
+      {
+        name: "Scharic Lee",
+        rate: 4.3,
+        numberOfReviews: 11,
+        courseTitle: "HIST 1301",
+        profileURL:
+          "https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Randy.png",
+      },
+      {
+        name: "Alex Lee",
+        rate: 2.3,
+        numberOfReviews: 15,
+        courseTitle: "IT 2300",
+        profileURL:
+          "https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/Sharice.png",
+      },
+    ],
+  });
+});
 
 // // Create new tutor account
 // app.post("/tutors", (req, res) => {
@@ -40,7 +83,6 @@ app.get("/tutors", (req, res) => {
 //     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
 // })
 
-
-
-
-app.listen(8000, () => {console.log("Server running on PORT 8000");})
+app.listen(8000, () => {
+  console.log("Server running on PORT 8000");
+});
