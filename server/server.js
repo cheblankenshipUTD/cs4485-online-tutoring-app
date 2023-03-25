@@ -10,7 +10,6 @@ app.get("/api", (req, res) => {
   /*const sql = "select * from people";
   connection.query(sql, (error, result) => {
     if (error) throw error;
-
     res.json({ tutors: result });
   });*/
 });
@@ -64,12 +63,14 @@ app.get("/tutors", (req, res) => {
 });
 
 // // Create new tutor account
-// app.post("/tutors", (req, res) => {
-//     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-// })
+app.post("/tutors/:id", (req, res) => {
+    // write the query and get tutor data by id
+    res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
+})
 
 // // Show 'signup for tutor account'
 // app.get("/tutors/new", (req, res) => {
+
 //     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
 // })
 
