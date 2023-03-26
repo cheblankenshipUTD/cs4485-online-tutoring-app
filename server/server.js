@@ -63,7 +63,7 @@ app.get("/tutors", (req, res) => {
 });
 
 // // Create new tutor account
-app.post("/tutors/:id", (req, res) => {
+app.post("/tutors/new", (req, res) => {
     // write the query and get tutor data by id
     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
 })
