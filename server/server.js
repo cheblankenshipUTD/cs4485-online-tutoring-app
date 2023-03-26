@@ -62,6 +62,18 @@ app.get("/tutors", (req, res) => {
   });
 });
 
+// // Show information about one specific tutor
+app.get("/tutors/:id", (req, res) => {
+  var tutorID = req.params.id;
+
+  const sql = "SELECT * FROM tutors WHERE tutor_id = ?";
+  connection.query(sql, tutorID, (error, result) => {
+    if (error) throw error;
+
+    res.json({ tutors: result });
+  });
+});
+
 // // Create new tutor account
 app.post("/tutors/new", (req, res) => {
     // write the query and get tutor data by id
