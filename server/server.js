@@ -74,12 +74,6 @@ app.get("/tutors/:id", (req, res) => {
   });
 });
 
-// // Create new tutor account
-app.post("/tutors/new", (req, res) => {
-    // write the query and get tutor data by id
-    res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-})
-
 // // Show 'signup for tutor account'
 // app.get("/tutors/new", (req, res) => {
 
