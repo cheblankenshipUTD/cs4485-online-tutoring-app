@@ -86,6 +86,7 @@ app.get("/reservations", (req, res) => {
     appointments: [
       {
         //unsure if we should have appointment numbers like this, but there's numbers on our figma mockup
+        //need to add user auth, for now, can do hardcoded userIDs, will do those soon
         appointmentNum: 1,
         name: "CS 2305 with John",
         zoomURL: "https://zoom.us/",
