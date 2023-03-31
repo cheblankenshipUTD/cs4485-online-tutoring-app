@@ -81,14 +81,46 @@ app.get("/tutors/:id", (req, res) => {
 // })
 
 // // List all reservations (aka 'appointments')
-// app.get("/reservations", (req, res) => {
-//     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-// })
+app.get("/reservations", (req, res) => {
+  res.json({
+    appointments: [
+      {
+        //unsure if we should have appointment numbers like this, but there's numbers on our figma mockup
+        appointmentNum: 1,
+        name: "CS 2305 with John",
+        zoomURL: "https://zoom.us/",
+        startTime: "2023-04-17 10:00:00",
+        endTime:  "2023-04-17 11:00:00"
+      },
+      {
+        appointmentNum: 2,
+        name: "ITSS 3311 with Tracey",
+        zoomURL: "https://zoom.us/",
+        startTime: "2023-04-18 08:30:00",
+        endTime:  "2023-04-18 09:30:00"
+      },
+      {
+        appointmentNum: 3,
+        name: "CS 4349 with Alex",
+        zoomURL: "https://zoom.us/",
+        startTime: "2023-04-19 04:00:00",
+        endTime:  "2023-04-19 05:00:00"
+      }
+    ] 
+  });
+});
 
 // // Show information about one specific reservation
-// app.get("/reservations:id", (req, res) => {
-//     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-// })
+app.get("/reservations/:id", (req, res) => {
+  var appointmentID = req.params.id;
+
+  const sql = "SELECT * FROM appointments WHERE appointment_ID = ?";
+  connection.query(sql, appointmentID, (error, result) => {
+    if(error) throw error;
+
+    res.json({appointments : result});
+  });
+});
 
 app.listen(8000, () => {
   console.log("Server running on PORT 8000");
