@@ -1,133 +1,52 @@
-import React, { useEffect, useState } from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import React from 'react'
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Header from './Header';
-import Footer from './Footer';
 
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Tutors from './components/Tutors';
+import Subjects from './components/Courses';
+import Appointments from './components/Appointments';
+import Favorites from './components/Favorites';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import TutorsNew from './components/TutorsNew';
+import Profile from './components/Profile';
+import History from './components/History';
+import Settings from './components/Settings';
+import AppointmentsNew from './components/AppointmentsNew';
+import UsersNew from './components/UsersNew';
+
+import ProtectedRoutes from './services/ProtectedRoutes'
 
 function App() {
 
-  const [tutorsData, setTutorsData] = useState([{}]);
-
-  useEffect(() => {
-    fetch("/tutors")
-    .then(res => res.json())
-    .then(data => {setTutorsData(data)})
-  }, [])
-
   return (
+    <BrowserRouter>
+    <Header />
+      <Routes>
+        <Route path='/login' element={<Login />} />  
+        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/tutors' element={<Tutors />} />
+        <Route path='/courses' element={<Subjects />} />
+        <Route path='/tutors/new' element={<TutorsNew />} />
+        <Route path='/users/new' element={<UsersNew />} />
 
-    <div className="div-1">
-        <Header />
-        <br></br>
-        <h2 style={{ textAlign: "center" }}>Tutors For Popular Subjects</h2>
-        <Container>
-          <Row
-            style={{
-              padding: "30px",
-              backgroundColor: "#ADE377",
-              borderRadius: "25px",
-            }}
-          >
-            
-              {(typeof tutorsData.tutors === 'undefined') ? (
-              <p>Loading ...</p>
-              ): (
-                tutorsData.tutors.map((tutor, i) => (
-                  // <p key={i}>{tutor.name}</p>
-                  <Col xs="4">
-                    <Card
-                    key={i}
-                    style={{
-                      backgroundColor: "#FEA150",
-                      color: "white",
-                      borderRadius: "25px",
-                    }}
-                    >
-                      <Card.Header>
-                      <img
-                        src={tutor.profileURL}
-                        width="50"
-                        height="50"
-                        alt="profile img"
-                        className="me-1"
-                      />
-                      <span>{tutor.name}</span>
-                      </Card.Header>
-                      <Card.Body>
-                        <Card.Title>{tutor.courseTitle}</Card.Title>
-                        <Card.Text>{tutor.rate}/5, {tutor.numberOfReviews} reviews</Card.Text>
-                        <Button variant="primary">Schedule</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-              ))
-              )}
-          </Row>
-        </Container>
-
-        <br></br>
-
-        <h2 style={{ textAlign: "center" }}>Upcoming Appointments</h2>
-        <div>
-          <Container>
-            <Row
-              style={{
-                padding: "30px",
-                backgroundColor: "#ADE377",
-                borderRadius: "25px",
-              }}
-            >
-              <Col xs="5">
-                <Card
-                  style={{
-                    backgroundColor: "#FEA150",
-                    color: "white",
-                    borderRadius: "25px",
-                  }}
-                >
-                  <Card.Header>Appintment #49583</Card.Header>
-                  <Card.Body>
-                    <Card.Title>HIST 1301 with Ryan</Card.Title>
-                    <Card.Text>
-                      <p>Zoom link : https://zoom.us/</p>
-                      <p>Time: 3:00 pm - 3:45 pm</p>
-                    </Card.Text>
-                    <Button variant="primary">Join</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs="5">
-                <Card
-                  style={{
-                    backgroundColor: "#FEA150",
-                    color: "white",
-                    borderRadius: "25px",
-                  }}
-                >
-                  <Card.Header>Appintment #74294</Card.Header>
-                  <Card.Body>
-                    <Card.Title>MATH 2413 with Alice</Card.Title>
-                    <Card.Text>
-                      <p>Zoom link : https://zoom.us/</p>
-                      <p>Time: 5:00 pm - 5:45 pm</p>
-                    </Card.Text>
-                    <Button variant="secondary">Wait</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-        <br></br>
-        <Footer />
-      </div>
-
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/reservations" element={<Appointments />} />
+          <Route path="/reservations/new" element={<AppointmentsNew />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path='/logout' element={<Logout />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/history' element={<History />} />
+          <Route path='/settings' element={<Settings />} />
+        </Route>   
+      </Routes> 
+      <Footer />
+    </BrowserRouter>
   )
 }
 
