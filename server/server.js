@@ -81,11 +81,22 @@ app.get("/tutors/:id", (req, res) => {
 
 // //Show specific information for person's profile depending on if they are a user or a tutor
 
-// // Show 'signup for tutor account'
-// app.get("/tutors/new", (req, res) => {
+// Show 'signup for tutor account'
+app.post("/tutors/new", (req, res) => {
+	
+	const email = req.body.email;
+	const password = req.body.password;
+	const first_name = req.body.firstName;
+	const last_name = req.body.lastName;
 
-//     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-// })
+	const query = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?)`;
+
+	connection.query(query, [email, password, first_name, last_name], (error, result) => {
+			if (error) throw error;
+			console.log("result >> ", result);
+		}
+	);
+})
 
 // // List all reservations (aka 'appointments')
 // app.get("/reservations", (req, res) => {
