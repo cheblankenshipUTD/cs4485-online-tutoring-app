@@ -89,13 +89,28 @@ app.post("/tutors/new", (req, res) => {
 	const first_name = req.body.firstName;
 	const last_name = req.body.lastName;
 
-	const query = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?)`;
+	const query1 = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?);`;
+	const query2 = `SELECT people_id FROM people WHERE email = ? AND first_name = ? AND last_name = ?;`; // needs 
+	const query3 = `INSERT INTO tutors (people_id, about_me, profile_url) VALUES (?, ?, ?);`;
 
-	connection.query(query, [email, password, first_name, last_name], (error, result) => {
+
+	let pId;
+
+	connection.query(query1, [email, password, first_name, last_name], (error, result) => {
 			if (error) throw error;
 			console.log("result >> ", result);
-		}
-	);
+		})
+		.then(
+			connection.query(query2, [email, first_name, last_name], (error, result) => {
+				if (error) throw error;
+				pId = result[0]['people_id'];
+				console.log("query 2 pid result >> ", pId);
+				connection.query(query3, [pId, 'testtest...', 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/John.png'], (error, result) => {
+					if (error) throw error;
+					console.log("query 3 result >> ", result);
+				})
+			})
+		);
 })
 
 // // List all reservations (aka 'appointments')

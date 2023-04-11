@@ -9,6 +9,7 @@ const connection = mysql.createConnection({
   database: "tutorDB",
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
+  multipleStatements: true,
 });
 
 connection.connect(function (error) {
