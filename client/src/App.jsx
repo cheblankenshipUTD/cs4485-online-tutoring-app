@@ -43,6 +43,9 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/history' element={<History />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/favorites/:userID' element={<Settings />} />
+          <Route path='/favorites/add/:userID/:tutorID' element={<Settings />} />
+          <Route path='//favorites/delete/:userID/:tutorID' element={<Settings />} />
         </Route>   
       </Routes> 
       <Footer />
