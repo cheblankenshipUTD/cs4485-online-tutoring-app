@@ -6,9 +6,11 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Tutors = () => {
 
+  const user = JSON.parse(localStorage.getItem("user"));
   const [tutorsData, setTutorsData] = useState([{}]);
   const navigate = useNavigate();
 
@@ -20,6 +22,16 @@ const Tutors = () => {
 
   const handleSchedule = (e) => {
     navigate("/reservations/new");
+  }
+
+  const handleFavorites = (e) => {
+
+    axios.get("http://localhost:8000/favorites/add/" + user.userORtutor_id + "/" + e, {
+          userID: user.userORtutor_id,
+          tutorID: e,
+      })
+
+    navigate("/favorites");
   }
 
     return (
@@ -68,6 +80,8 @@ const Tutors = () => {
                         <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
                         <Card.Text>Times during days available: {tutor.start_time} to {tutor.end_time}</Card.Text>
                         <Button onClick={handleSchedule} variant="primary">Schedule</Button>
+                        &ensp; 
+                        <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
                       </Card.Body>
                     </Card>
                   </Col>
