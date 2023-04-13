@@ -194,10 +194,25 @@ app.post("/tutors/new", (req, res) => {
 		);
 })
 
-// // List all reservations (aka 'appointments')
-// app.get("/reservations", (req, res) => {
-//     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
-// })
+app.get("/reservations/:id", (req, res) => {
+  var userORtutor_id = req.params.id;
+
+  //query
+  const sql = "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " +
+    "FROM appointments, people, tutors, users " + 
+    "WHERE appointments.tutor_id = ? AND tutors.tutor_id = ? AND people.people_id = users.people_id AND appointments.user_id = users.user_id) " + 
+    "UNION " +
+    "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " + 
+    "FROM appointments, people, tutors, users " +
+    "WHERE appointments.user_id = ? AND users.user_id = ? AND people.people_id = tutors.people_id AND appointments.tutor_id = tutors.tutor_id);";
+
+  connection.query(sql, [userORtutor_id, userORtutor_id, userORtutor_id, userORtutor_id], (error, result) => {
+    if (error) throw error;
+    
+    res.json({ appointments: result });
+  });
+
+});
 
 // // Show information about one specific reservation
 // app.get("/reservations:id", (req, res) => {
