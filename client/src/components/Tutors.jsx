@@ -34,6 +34,13 @@ const Tutors = () => {
     navigate("/favorites");
   }
 
+  const formatDate = (dateString) => {
+    const options = { hour: 'numeric', hour12: true}
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
+  //alert(`Times: ${formatDate("2023-01-17T16:00:00.000Z")} to ${formatDate("2023-05-05T16:00:00.000Z")}`);
+
     return (
       <div className="div-1">
         <br></br>
@@ -78,7 +85,7 @@ const Tutors = () => {
                         <Card.Text>{tutor.course_name}</Card.Text>
                         <Card.Title>Available Times</Card.Title>
                         <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
-                        <Card.Text>Times during days available: {tutor.start_time} to {tutor.end_time}</Card.Text>
+                        <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
                         <Button onClick={handleSchedule} variant="primary">Schedule</Button>
                         &ensp; 
                         <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
