@@ -39,16 +39,16 @@ const Tutors = () => {
     return new Date(dateString).toLocaleDateString(undefined, options)
   }
 
-  const accountType = () => {
-    const isTutor = user.about_me;
+      const accountType = () => {
+        const isTutor = user.about_me;
+        
+        if(isTutor == null)
+            return false;
+        else
+            return true;
+      };
     
-    if(isTutor == null)
-        return false;
-    else
-        return true;
-  };
-
-  const isTutor = accountType();
+      //const isTutor = accountType();
 
     return (
       <div className="div-1">
@@ -95,19 +95,9 @@ const Tutors = () => {
                         <Card.Title>Available Times</Card.Title>
                         <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
                         <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
-
-                        <>
-                        {!isTutor &&  
-                          <Button onClick={handleSchedule} variant="primary">Schedule</Button>
-                        }
-                        </>
-                        &ensp;
-                        <>
-                        {!isTutor &&  
-                          <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
-                        }
-                        </>
-  
+                        <Button onClick={handleSchedule} variant="primary">Schedule</Button>
+                        &ensp; 
+                        <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
                       </Card.Body>
                     </Card>
                   </Col>
