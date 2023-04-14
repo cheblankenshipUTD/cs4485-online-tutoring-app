@@ -66,7 +66,7 @@ const Tutors = () => {
                         <Card.Text>{tutor.course_name}</Card.Text>
                         <Card.Title>Available Times</Card.Title>
                         <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
-                        <Card.Text>Times during days available: {tutor.start_time} to {tutor.end_time}</Card.Text>
+                        <Card.Text>Times during days available: {Date(tutor.start_time).toLocaleTimeString()} to {Date(tutor.end_time).toLocaleTimeString()}</Card.Text>
                         <Button onClick={handleSchedule} variant="primary">Schedule</Button>
                       </Card.Body>
                     </Card>
