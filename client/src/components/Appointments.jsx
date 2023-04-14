@@ -7,7 +7,17 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
 const Appointments = () => {
-    return (
+  
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [appointmentsData, setAppointmentsData] = useState([{}]);
+
+  useEffect(() => {
+    fetch("/reservations/" + user.userORtutor_id)
+    .then(res => res.json())
+    .then(data => {setAppointmentsData(data)})
+  }, [])
+
+  return (
         <div className="div-1">
             <br></br>
             <h2 style={{ textAlign: "center" }}>Upcoming Appointments</h2>
@@ -21,44 +31,32 @@ const Appointments = () => {
         borderRadius: "25px",
       }}
     >
-      <Col xs="5">
-        <Card
-          style={{
-            backgroundColor: "#FEA150",
-            color: "white",
-            borderRadius: "25px",
-          }}
-        >
-          <Card.Header>Appintment #49583</Card.Header>
-          <Card.Body>
-            <Card.Title>HIST 1301 with Ryan</Card.Title>
-            <Card.Text>
-              <p>Zoom link : https://zoom.us/</p>
-              <p>Time: 3:00 pm - 3:45 pm</p>
-            </Card.Text>
-            <Button variant="primary">Join</Button>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col xs="5">
-        <Card
-          style={{
-            backgroundColor: "#FEA150",
-            color: "white",
-            borderRadius: "25px",
-          }}
-        >
-          <Card.Header>Appintment #74294</Card.Header>
-          <Card.Body>
-            <Card.Title>MATH 2413 with Alice</Card.Title>
-            <Card.Text>
-              <p>Zoom link : https://zoom.us/</p>
-              <p>Time: 5:00 pm - 5:45 pm</p>
-            </Card.Text>
-            <Button variant="secondary">Wait</Button>
-          </Card.Body>
-        </Card>
-      </Col>
+      {(typeof appointmentsData.appointments === 'undefined') ? (
+              <p>Loading ...</p>
+              ): (
+                appointmentsData.appointments.map((appointment, i) => (
+                  <Col xs="5">
+                    <Card
+                    key={i}
+                    style={{
+                      backgroundColor: "#FEA150",
+                      color: "white",
+                      borderRadius: "25px",
+                    }}
+                    >
+                      <Card.Header>Appointment #{appointment.appointment_ID}</Card.Header>
+                      <Card.Body>
+                        <Card.Title>Appointment with: {appointment.first_name} {appointment.last_name}</Card.Title>
+                        <Card.Text>
+                          <p>Zoom link : https://zoom.us/</p>
+                          <p>Time: {appointment.start_time} - {appointment.end_time}</p>
+                        </Card.Text>
+                        <Button variant="primary">Join</Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+      ))
+      )}
     </Row>
   </Container>
   </div>
