@@ -39,7 +39,16 @@ const Tutors = () => {
     return (new Date(dateString).toLocaleDateString(undefined, options)).substring(2);
   }
 
-  //alert(`Times: ${formatDate("2023-01-17T16:00:00.000Z")} to ${formatDate("2023-05-05T16:00:00.000Z")}`);
+      const accountType = () => {
+        const isTutor = user.about_me;
+        
+        if(isTutor == null)
+            return false;
+        else
+            return true;
+      };
+    
+      //const isTutor = accountType();
 
     return (
       <div className="div-1">
