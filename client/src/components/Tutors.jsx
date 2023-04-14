@@ -20,35 +20,50 @@ const Tutors = () => {
     .then(data => {setTutorsData(data)})
   }, [])
 
+  const UserOrLoggedOut = () => {
+    if(user)
+    {
+      const isTutor = user.about_me;
+        
+      if(isTutor == null)
+          return true; //a user is logged in
+      else
+          return false; //a tutor is logged in
+    }
+
+    else {
+      return true; //logged out
+    }
+  };
+
+  const isUserOrLoggedOut = UserOrLoggedOut();
+
+   //alert(`isUserOrLoggedOut: ${isUserOrLoggedOut}`);
+
   const handleSchedule = (e) => {
     navigate("/reservations/new");
   }
 
   const handleFavorites = (e) => {
-
-    axios.get("http://localhost:8000/favorites/add/" + user.userORtutor_id + "/" + e, {
-          userID: user.userORtutor_id,
-          tutorID: e,
+    if (user)
+    {
+      axios.get("http://localhost:8000/favorites/add/" + user.userORtutor_id + "/" + e, {
+        userID: user.userORtutor_id,
+        tutorID: e,
       })
 
-    navigate("/favorites");
+      navigate("/favorites");
+    }
+
+    else {
+      navigate("/login");
+    }
   }
 
   const formatDate = (dateString) => {
     const options = { weekday:"narrow", hour: 'numeric', minute: 'numeric', hour12: true};
     return (new Date(dateString).toLocaleDateString(undefined, options)).substring(2);
   }
-
-      const accountType = () => {
-        const isTutor = user.about_me;
-        
-        if(isTutor == null)
-            return false;
-        else
-            return true;
-      };
-    
-      //const isTutor = accountType();
 
     return (
       <div className="div-1">
@@ -95,9 +110,17 @@ const Tutors = () => {
                         <Card.Title>Available Times</Card.Title>
                         <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
                         <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
-                        <Button onClick={handleSchedule} variant="primary">Schedule</Button>
-                        &ensp; 
-                        <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
+                        <>
+                        {isUserOrLoggedOut &&  
+                          <Button onClick={handleSchedule} variant="primary">Schedule</Button>
+                        }
+                        </>
+                        &ensp;
+                        <>
+                        {isUserOrLoggedOut &&  
+                          <Button onClick={e => handleFavorites(tutor.tutor_id)} variant="primary">Add to favorites</Button>
+                        }
+                        </>
                       </Card.Body>
                     </Card>
                   </Col>
