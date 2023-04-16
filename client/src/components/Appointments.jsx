@@ -17,6 +17,11 @@ const Appointments = () => {
     .then(data => {setAppointmentsData(data)})
   }, [])
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric", hour: 'numeric', hour12: true}
+    return new Date(dateString).toLocaleDateString(undefined, options)
+  }
+
   return (
         <div className="div-1">
             <br></br>
@@ -49,7 +54,7 @@ const Appointments = () => {
                         <Card.Title>Appointment with: {appointment.first_name} {appointment.last_name}</Card.Title>
                         <Card.Text>
                           <p>Zoom link : https://zoom.us/</p>
-                          <p>Time: {appointment.start_time} - {appointment.end_time}</p>
+                          <p>Time: {formatDate(appointment.start_time)} to {formatDate(appointment.end_time)}</p>
                         </Card.Text>
                         <Button variant="primary">Join</Button>
                       </Card.Body>
