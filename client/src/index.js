@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const domain = process.env.AUTH0_DOMAIN;
-const clientId = process.env.AUTH0_CLIENT_ID
-
+const uri = 'http://localhost:3000/welcome'
 root.render(
   <React.StrictMode>
-      <App />
+    <Auth0Provider
+      domain="tutor-3132.us.auth0.com"
+      clientId="G4XCU1f95JXUC6RshA6j9Rz29hIIqXCR"
+      //authorizationParams={{ redirect_uri: window.location.origin }}
+      authorizationParams={{ redirect_uri: uri }}
+  >
+      <App/>
+    </Auth0Provider>, 
   </React.StrictMode>
 );
 

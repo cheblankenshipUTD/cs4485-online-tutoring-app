@@ -18,6 +18,7 @@ import History from './components/History';
 import Settings from './components/Settings';
 import AppointmentsNew from './components/AppointmentsNew';
 import UsersNew from './components/UsersNew';
+import Welcome from './components/Welcome';
 
 import ProtectedRoutes from './services/ProtectedRoutes'
 
@@ -34,6 +35,7 @@ function App() {
         <Route path='/courses' element={<Subjects />} />
         <Route path='/tutors/new' element={<TutorsNew />} />
         <Route path='/users/new' element={<UsersNew />} />
+        <Route path="/welcome" element={<Welcome />} />
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/reservations" element={<Appointments />} />
