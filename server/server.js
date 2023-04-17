@@ -273,11 +273,13 @@ app.get("/reservations/:id", (req, res) => {
   //query
   const sql = "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " +
     "FROM appointments, people, tutors, users " + 
-    "WHERE appointments.tutor_id = ? AND tutors.tutor_id = ? AND people.people_id = users.people_id AND appointments.user_id = users.user_id) " + 
+    "WHERE appointments.tutor_id = ? AND tutors.tutor_id = ? AND people.people_id = users.people_id AND appointments.user_id = users.user_id " + 
+    "AND appointments.start_time >= now()) " +
     "UNION " +
     "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " + 
     "FROM appointments, people, tutors, users " +
-    "WHERE appointments.user_id = ? AND users.user_id = ? AND people.people_id = tutors.people_id AND appointments.tutor_id = tutors.tutor_id);";
+    "WHERE appointments.user_id = ? AND users.user_id = ? AND people.people_id = tutors.people_id AND appointments.tutor_id = tutors.tutor_id " +
+    "AND appointments.start_time >= now());";
 
   connection.query(sql, [userORtutor_id, userORtutor_id, userORtutor_id, userORtutor_id], (error, result) => {
     if (error) throw error;
@@ -286,6 +288,51 @@ app.get("/reservations/:id", (req, res) => {
   });
 
 });
+
+app.get("/history/:id", (req, res) => {
+
+  var userORtutor_id = req.params.id;
+
+  // Have a json object that holds all the results
+  let jsonObj = {'hours': 0, 'history': []};
+
+  const q1 = "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " +
+  "FROM appointments, people, tutors, users " + 
+  "WHERE appointments.tutor_id = ? AND tutors.tutor_id = ? AND people.people_id = users.people_id AND appointments.user_id = users.user_id " +
+  "AND appointments.start_time <= now()) " + 
+  "UNION " +
+  "(SELECT appointment_ID, appointments.user_id, appointments.tutor_id, course_id, Zoom_URL, start_time, end_time, first_name, last_name " + 
+  "FROM appointments, people, tutors, users " +
+  "WHERE appointments.user_id = ? AND users.user_id = ? AND people.people_id = tutors.people_id AND appointments.tutor_id = tutors.tutor_id " +
+  "AND appointments.start_time <= now());";
+
+  const q2 = "(SELECT SUM(TIMESTAMPDIFF(HOUR, appointments.start_time, appointments.end_time)) AS totalHours " +
+  "FROM appointments, people, tutors, users " +
+  "WHERE appointments.tutor_id = ? AND tutors.tutor_id = ? AND people.people_id = users.people_id AND appointments.user_id = users.user_id " +
+  "AND appointments.start_time <= now() " +
+  "HAVING ISNULL(totalHours) = 0) " +
+  "UNION " +
+  "(SELECT SUM(TIMESTAMPDIFF(HOUR, appointments.start_time, appointments.end_time)) AS totalHours " +
+  "FROM appointments, people, tutors, users " +
+  "WHERE appointments.user_id = ? AND users.user_id = ? AND people.people_id = tutors.people_id AND appointments.tutor_id = tutors.tutor_id " +
+  "AND appointments.start_time <= now()  " +
+  "HAVING ISNULL(totalHours) = 0);";
+
+  // query 1: get the list of past appointments and store it to jsonObj['history']
+  connection.query(q1, [userORtutor_id, userORtutor_id, userORtutor_id, userORtutor_id], (error, result) => {
+    if (error) throw error;
+    jsonObj['history'] = result;
+    
+    // query 2: get the sum of total hours and store it to jsonObj['hours']
+    connection.query(q2, [userORtutor_id, userORtutor_id, userORtutor_id, userORtutor_id], (error, result2) => {
+      if (error) throw error;
+      jsonObj['hours'] = result2;
+
+      // At the end, return the jsonObj as a result
+      res.json(jsonObj);
+    });  
+  });
+})
 
 // // Show information about one specific reservation
 // app.get("/reservations:id", (req, res) => {
