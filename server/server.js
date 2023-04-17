@@ -1,13 +1,20 @@
 const connection = require("./DB/connection");
 const express = require("express");
 const app = express();
-
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const fileupload = require("express-fileupload");
+const fs = require('fs');
+const axios = require('axios');
+const base64 = require('base-64');
+const multer = require('multer');
+const bodyParser = require("body-parser");
+
 app.use(cors());
-
-
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.post("/login", (req, res) => {
   const email = req.body.email;
@@ -163,83 +170,101 @@ app.get("/favorites/delete/:userID/:tutorID", (req, res) => {
 
 
 // Show 'signup for tutor account'
-app.post("/tutors/new", (req, res) => {
-	// get what is request body
-	const email =  req.body.email;
+const upload = multer({ dest: 'upload/'});
+let githubToken = process.env.GITHUB_TOKEN;
+let gitRepoURL = process.env.GITHUB_URL;
+
+app.post("/tutors/new", upload.single('profileImg'), async (req, res) => {
+
+  console.log("body: ", req.body);
+	
+  const email = req.body.email;
 	const password = req.body.password;
 	const first_name = req.body.firstName;
 	const last_name = req.body.lastName;
-  const image_link = req.body.imageLink;
   const about_me = req.body.aboutMe;
-  const is_tutor = req.body.isTutor;
+  const selectedCourse = req.body.course;
+  console.log("check: ", req.body.availability);
+  let availability = JSON.parse(req.body.availability);
+  let profile_url = 'https://raw.githubusercontent.com/cheblankenshipUTD/ml-dataset/main/img/John.png'; //default set
+  let rawGitURL = process.env.RAW_GITHUB_URL;
+
+
+  const file = req.file;
+  const fileName = file.originalname;
   
-  // DB queries
-  const query0 = "SELECT DISTINCT * FROM people WHERE people.email = ?;"
-	const query1 = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?);`;
-	const query2 = `SELECT people_id FROM people WHERE email = ? AND first_name = ? AND last_name = ?;`; // needs 
-	const query3 = `INSERT INTO tutors (people_id, about_me, profile_url) VALUES (?, ?, ?);`;
-  const query4 = `INSERT INTO users (people_id) VALUES (?);`;
+  let readFile = fs.readFileSync(`${req.file.path}`, 'base64');
 
-  // hash password
-  const hash = bcrypt.hashSync(password, 10);
+  var fileUploadData = JSON.stringify({
+    "message": "upload profile image via UTD Tutor app",
+    "content": `${readFile}`
+  });
 
-  // holds people_id
-	let pId;
-  let exist;
+  var gitAPIConfig = {
+    method: 'put',
+    url: `${gitRepoURL}${fileName}`,
+    headers: {
+        'Authorization': `Bearer ${githubToken}`,
+        'Content-Type': 'application/json'
+    },
+    data: fileUploadData
+  };
 
-  // check if duplicates
-  connection.query(query0, [email], (error, result) => {
-    if (error) {
-      throw error;
-    } 
-    else {
-      exist = result.length;
-      console.log("query 0 result >> ", result);
 
-      if (!exist) {
-        // add new person to DB
-        connection.query(query1, [email, hash, first_name, last_name], (error, result) => {
-          if (error) {
-            throw error;
-          } 
-          else {
-            console.log("query 1 result >> ", result);
+  // IDs that you get from query
+  let q_people_id = null;
+  let q_tutor_id = null;
+  let q_course_id = null;
 
-            // get people_id from query
-            connection.query(query2, [email, first_name, last_name], (error, result) => {
-              if (error) {
-                throw error;
-              } 
-              else {
-                pId = result[0]['people_id'];
-                console.log("query 2 result >> ", pId);
+  axios(gitAPIConfig)
+  .then(function (res) {
+      const hash = bcrypt.hashSync(password, 10);
+      const query1 = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?);`;
+      const query2 = `SELECT people_id FROM people WHERE email = ? AND first_name = ? AND last_name = ?;`;
+      const query3 = `INSERT INTO tutors (people_id, about_me, profile_url) VALUES (?, ?, ?);`;
+      const query4 = `SELECT course_id FROM courses WHERE course_name = ?;`;
+      const query5 = `SELECT tutor_id FROM tutors WHERE people_id = ?;`;
+      const query6 = `INSERT INTO tutors_courses (course_id, tutor_id) VALUES (?, ?);`;
+      const query7 = `INSERT INTO tutors_times (tutor_id, start_time, end_time, day_of_the_week) VALUES (?, ?, ?, ?);`;
 
-                // new person is tutor
-                if (is_tutor == 'true') {
-                  connection.query(query3, [pId, about_me, image_link], (error, result) => {
-                    if (error) throw error;
-                    console.log("query 3 result >> ", result);
-                    res.send({message: "Added new tutor"})
-                  })
-                }
-                // new person is user
-                else {
-                  connection.query(query4, [pId], (error, result) => {
-                    if (error) throw error;
-                    console.log("query 4 result >> ", result);
-                    res.send({message: "Added new user"})
-                  })
-                }
-              }
+      connection.query(query1, [email, hash, first_name, last_name], (error, result) => {
+			  if (error) throw error;
+        connection.query(query2, [email, first_name, last_name], (error, result) => {
+				  if (error) throw error;
+          q_people_id = result[0]['people_id'];
+          profile_url = rawGitURL + fileName;
+          console.log("people id value before getting insert >> ", q_people_id);
+          connection.query(query3, [q_people_id, about_me, profile_url], (error, result) => {
+            if (error) throw error;
+            connection.query(query4, [selectedCourse], (error, result) => {
+              if (error) throw error;
+              q_course_id = result[0]['course_id'];
+              connection.query(query5, [q_people_id], (error, result) => {
+                if (error) throw error;
+                q_tutor_id = result[0]['tutor_id'];
+                connection.query(query6, [q_course_id, q_tutor_id], (error, result) => {
+                  if (error) throw error;
+                  for (let i = 0; i < availability.length; i++) {
+                    let timeSlice = availability[i]['availableTime'].split(' ');
+                    let startTime = timeSlice[0].split(':');
+                    let endTime = timeSlice[2].split(':');
+                    let start = `2023-01-17 ${startTime[0]}:00:00`;
+                    let end = `2023-01-17 ${endTime[0]}:00:00`;
+                    connection.query(query7, [q_tutor_id, start, end, availability[i]['dayOfWeek']], (error, result) => {
+                      if (error) throw error;
+                      console.log("Success: ", result);
+                    })
+                  }
+                })
+              })
             })
-          }
+          })
         })
-      }
-      else {
-        res.send({message: "Person already exists"})
-      }
-    }
+		  })
   })
+  .catch(function (error) {
+    console.log("Upload img git error >>> ");
+  });
 })
 
 app.get("/reservations/:id", (req, res) => {
