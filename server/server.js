@@ -334,6 +334,52 @@ app.get("/history/:id", (req, res) => {
   });
 })
 
+app.get("/search/:firstName/:lastName", (req, res) => {
+  var firstName = req.params.firstName;
+  const lastName = req.params.lastName;
+
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  "FROM people, tutors, courses, tutors_times, tutors_courses " +
+  "WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id " +
+  "AND tutors_courses.course_id = courses.course_id AND people.first_name = ? AND people.last_name = ?;";
+
+  connection.query(sql, [firstName, lastName], (error, result) => {
+    if (error) throw error;
+
+    if (result.length > 0) {
+      console.log("Search returned results");
+      res.json({ tutors: result });
+    }
+
+    else {
+      res.send({message: "No tutors exist with that first name and last name"})
+    }
+  });
+
+})
+
+app.get("/search/:course", (req, res) => {
+  var course = req.params.course;
+
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  "FROM people, tutors, courses, tutors_times, tutors_courses " +
+  "WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id " + 
+  "AND tutors_courses.course_id = courses.course_id AND courses.course_name = ?;";
+
+  connection.query(sql, course, (error, result) => {
+    if (error) throw error;
+
+    if (result.length > 0) {
+      console.log("Search returned results");
+      res.json({ tutors: result });
+    }
+
+    else {
+      res.send({message: "No tutors offer that course"})
+    }
+  });
+})
+
 // // Show information about one specific reservation
 // app.get("/reservations:id", (req, res) => {
 //     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
