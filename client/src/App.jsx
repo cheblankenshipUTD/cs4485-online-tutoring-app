@@ -19,6 +19,7 @@ import Settings from './components/Settings';
 import AppointmentsNew from './components/AppointmentsNew';
 import UsersNew from './components/UsersNew';
 import Welcome from './components/Welcome';
+import Search from './components/Search';
 
 import ProtectedRoutes from './services/ProtectedRoutes'
 
@@ -36,6 +37,7 @@ function App() {
         <Route path='/tutors/new' element={<TutorsNew />} />
         <Route path='/users/new' element={<UsersNew />} />
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/search" element={<Search />} />
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/reservations" element={<Appointments />} />
