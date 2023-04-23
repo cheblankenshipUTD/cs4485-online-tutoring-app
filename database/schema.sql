@@ -70,7 +70,7 @@ CREATE TABLE tutors_courses (
 );
 
 CREATE TABLE tutors_times (
-    availability_id INT NOT NULL,
+    availability_id INT NOT NULL AUTO_INCREMENT,
   	tutor_id INT NOT NULL,
   	start_time TIMESTAMP,
   	end_time TIMESTAMP,
