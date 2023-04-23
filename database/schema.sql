@@ -70,11 +70,12 @@ CREATE TABLE tutors_courses (
 );
 
 CREATE TABLE tutors_times (
+    availability_id INT NOT NULL,
   	tutor_id INT NOT NULL,
   	start_time TIMESTAMP,
   	end_time TIMESTAMP,
   	day_of_the_week varchar(255),
-  	PRIMARY KEY (tutor_id),
+  	PRIMARY KEY (availability_id),
   	FOREIGN KEY (tutor_id)
   		REFERENCES tutors (tutor_id)
 );
