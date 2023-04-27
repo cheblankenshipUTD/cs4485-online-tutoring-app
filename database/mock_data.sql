@@ -40,11 +40,15 @@ VALUES
 -- Mock data for tutors_times (5 sets; 1 set for each tutor)
 INSERT INTO tutors_times (tutor_id, start_time, end_time, day_of_the_week)
 VALUES 
-(10, '2023-01-17 10:00:00', '2023-05-05 11:00:00', 'Monday, Wednesday'),
-(20, '2023-01-17 03:30:00', '2023-05-05 04:30:00', 'Tuesday, Thursday'),
+(10, '2023-01-17 10:00:00', '2023-05-05 11:00:00', 'Monday'),
+(10, '2023-01-17 10:00:00', '2023-05-05 11:00:00', 'Wednesday'),
+(20, '2023-01-17 03:30:00', '2023-05-05 04:30:00', 'Tuesday'),
+(20, '2023-01-17 03:30:00', '2023-05-05 04:30:00', 'Thursday'),
 (30, '2023-01-17 01:00:00', '2023-05-05 02:15:00', 'Friday'),
-(40, '2023-01-17 04:00:00', '2023-05-05 06:00:00', 'Monday, Thursday'),
-(50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Tuesday, Thuesday');
+(40, '2023-01-17 04:00:00', '2023-05-05 06:00:00', 'Monday'),
+(40, '2023-01-17 04:00:00', '2023-05-05 06:00:00', 'Thursday'),
+(50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Tuesday'),
+(50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Thuesday');
 
 -- Mock data for tutors_courses (5 sets; 1 set for each tutor)
 INSERT INTO tutors_courses (tutor_id, course_id)

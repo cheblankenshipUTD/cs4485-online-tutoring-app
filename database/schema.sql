@@ -5,13 +5,15 @@
 -- Disconnect from the local MySQL server, and connect to tutorDB.
 USE tutorDB;
 
--- DROP TABLE IF EXISTS people;
--- DROP TABLE IF EXISTS tutors;
--- DROP TABLE IF EXISTS users;
--- DROP TABLE IF EXISTS users_tutors;
--- DROP TABLE IF EXISTS courses;
--- DROP TABLE IF EXISTS tutors_courses;
+-- Order of dropping tables
 -- DROP TABLE IF EXISTS tutors_times;
+-- DROP TABLE IF EXISTS tutors_courses;
+-- DROP TABLE IF EXISTS appointments
+-- DROP TABLE IF EXISTS courses;
+-- DROP TABLE IF EXISTS users_tutors;
+-- DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS tutors;
+-- DROP TABLE IF EXISTS people;
 
 -- Step 3. Create people table
 CREATE TABLE people (
@@ -70,11 +72,12 @@ CREATE TABLE tutors_courses (
 );
 
 CREATE TABLE tutors_times (
+    availability_id INT NOT NULL AUTO_INCREMENT,
   	tutor_id INT NOT NULL,
   	start_time TIMESTAMP,
   	end_time TIMESTAMP,
   	day_of_the_week varchar(255),
-  	PRIMARY KEY (tutor_id),
+  	PRIMARY KEY (availability_id),
   	FOREIGN KEY (tutor_id)
   		REFERENCES tutors (tutor_id)
 );
