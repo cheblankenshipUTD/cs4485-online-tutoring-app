@@ -53,8 +53,8 @@ app.post("/login", (req, res) => {
           console.log("user from database >> ", user);
 
           if (user) {
-            const validPassword = bcrypt.compareSync(password, user.password); //check the hashed password
-            //const validPassword = password;
+            //const validPassword = bcrypt.compareSync(password, user.password); //check the hashed password
+            const validPassword = password;
 
             //if the passwords match
             if(validPassword) {
@@ -265,6 +265,86 @@ app.post("/tutors/new", upload.single('profileImg'), async (req, res) => {
   .catch(function (error) {
     console.log("Upload img git error >>> ");
   });
+})
+
+// adds new person to DB
+app.post("/person/new", (req, res) => {
+	// get what is request body
+	const email =  req.body.email;
+	const password = req.body.password;
+	const first_name = req.body.firstName;
+	const last_name = req.body.lastName;
+  const image_link = req.body.imageLink;
+  const about_me = req.body.aboutMe;
+  const is_tutor = req.body.isTutor;
+  
+  // DB queries
+  const query0 = "SELECT DISTINCT * FROM people WHERE people.email = ?;"
+	const query1 = `INSERT INTO people (email, password, first_name, last_name) VALUES (?, ?, ?, ?);`;
+	const query2 = `SELECT people_id FROM people WHERE email = ? AND first_name = ? AND last_name = ?;`; // needs 
+	const query3 = `INSERT INTO tutors (people_id, about_me, profile_url) VALUES (?, ?, ?);`;
+  const query4 = `INSERT INTO users (people_id) VALUES (?);`;
+
+  // hash password
+  const hash = bcrypt.hashSync(password, 10);
+
+  // holds people_id
+	let pId;
+  let exist;
+
+  // check if duplicates
+  connection.query(query0, [email], (error, result) => {
+    if (error) {
+      throw error;
+    } 
+    else {
+      exist = result.length;
+      console.log("query 0 result >> ", result);
+
+      if (!exist) {
+        // add new person to DB
+        connection.query(query1, [email, hash, first_name, last_name], (error, result) => {
+          if (error) {
+            throw error;
+          } 
+          else {
+            console.log("query 1 result >> ", result);
+
+            // get people_id from query
+            connection.query(query2, [email, first_name, last_name], (error, result) => {
+              if (error) {
+                throw error;
+              } 
+              else {
+                pId = result[0]['people_id'];
+                console.log("query 2 result >> ", pId);
+
+                // new person is tutor
+                if (is_tutor == 'true') {
+                  connection.query(query3, [pId, about_me, image_link], (error, result) => {
+                    if (error) throw error;
+                    console.log("query 3 result >> ", result);
+                    res.send({message: "Added new tutor"})
+                  })
+                }
+                // new person is user
+                else {
+                  connection.query(query4, [pId], (error, result) => {
+                    if (error) throw error;
+                    console.log("query 4 result >> ", result);
+                    res.send({message: "Added new user"})
+                  })
+                }
+              }
+            })
+          }
+        })
+      }
+      else {
+        res.send({message: "Person already exists"})
+      }
+    }
+  })
 })
 
 app.get("/reservations/:id", (req, res) => {

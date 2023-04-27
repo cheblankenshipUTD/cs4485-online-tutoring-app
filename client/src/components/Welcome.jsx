@@ -34,7 +34,7 @@ const Welcome = () => {
   const newPerson  = () => {
     console.log("New User")
 
-    const url = 'http://localhost:8000/tutors/new';
+    const url = 'http://localhost:8000/person/new';
     const body = { 
       email: user.email,
       password: user.sub,
