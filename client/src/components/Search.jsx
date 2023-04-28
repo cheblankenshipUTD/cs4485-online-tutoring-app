@@ -93,9 +93,23 @@ const Search = () => {
         }
     }
     
-    const formatDate = (dateString) => {
+    const formatTimes = (dateString) => {
         const options = { weekday:"narrow", hour: 'numeric', minute: 'numeric', hour12: true};
         return (new Date(dateString).toLocaleDateString(undefined, options)).substring(2);
+    }
+
+    const formatAvailableTimes = (days, startTimes, endTimes) => {
+      var tempDays = days.split(", ");
+      var tempStarts = startTimes.split(",");
+      var tempEnds = endTimes.split(",");
+      var format = "";
+  
+      for (var i = 0; i < tempDays.length; i++)
+      {
+        format += tempDays[i] + ": " + formatTimes(tempStarts[i]) + " to " + formatTimes(tempEnds[i]) +"\n\n";
+      }
+  
+      return format;
     }
 
     return (
@@ -163,8 +177,9 @@ const Search = () => {
                         <Card.Title>Courses</Card.Title>
                         <Card.Text>{tutor.course_name}</Card.Text>
                         <Card.Title>Available Times</Card.Title>
-                        <Card.Text>Days of the Week: {tutor.day_of_the_week}</Card.Text>
-                        <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
+                        <Card.Text>Days of the Week: {tutor.days}</Card.Text>
+                        <Card.Text>Times during days available:</Card.Text>
+                        <Card.Text>{formatAvailableTimes(tutor.days, tutor.start_time, tutor.end_time)}</Card.Text>
                         <>
                         {isUserOrLoggedOut &&  
                           <Button onClick={handleSchedule} variant="primary">Schedule</Button>
@@ -238,8 +253,9 @@ const Search = () => {
                         <Card.Title>Courses</Card.Title>
                         <Card.Text>{tutor2.course_name}</Card.Text>
                         <Card.Title>Available Times</Card.Title>
-                        <Card.Text>Days of the Week: {tutor2.day_of_the_week}</Card.Text>
-                        <Card.Text>Times during days available: {formatDate(tutor2.start_time)} to {formatDate(tutor2.end_time)}</Card.Text>
+                        <Card.Text>Days of the Week: {tutor2.days}</Card.Text>
+                        <Card.Text>Times during days available:</Card.Text>
+                        <Card.Text>{formatAvailableTimes(tutor2.days, tutor2.start_time, tutor2.end_time)}</Card.Text>
                         <>
                         {isUserOrLoggedOut &&  
                           <Button onClick={handleSchedule} variant="primary">Schedule</Button>
