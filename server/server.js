@@ -100,7 +100,11 @@ app.get("/subjects", (req, res) => {
 app.get("/tutors", (req, res) => {
 
   //query
-  const sql = "SELECT DISTINCT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id FROM people, tutors, courses, tutors_times, tutors_courses WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id AND tutors_courses.course_id = courses.course_id";
+  const sql = "SELECT DISTINCT first_name, last_name, about_me, profile_url, course_name, tutors.tutor_id, GROUP_CONCAT(tutors_times.day_of_the_week  SEPARATOR ', ') AS days, GROUP_CONCAT(tutors_times.start_time) AS start_time, GROUP_CONCAT(tutors_times.end_time) AS end_time " +
+  "FROM people, tutors, courses, tutors_times, tutors_courses " +
+  "WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id " +
+  "AND tutors_courses.course_id = courses.course_id " +
+  "GROUP BY first_name, last_name, about_me, profile_url, course_name, tutors.tutor_id;";
 
   connection.query(sql, (error, result) => {
     if (error) throw error;
@@ -418,10 +422,11 @@ app.get("/search/:firstName/:lastName", (req, res) => {
   var firstName = req.params.firstName;
   const lastName = req.params.lastName;
 
-  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, GROUP_CONCAT(tutors_times.day_of_the_week SEPARATOR ', ') AS days, GROUP_CONCAT(tutors_times.start_time) AS start_time, GROUP_CONCAT(tutors_times.end_time) AS end_time " +
   "FROM people, tutors, courses, tutors_times, tutors_courses " +
   "WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id " +
-  "AND tutors_courses.course_id = courses.course_id AND people.first_name = ? AND people.last_name = ?;";
+  "AND tutors_courses.course_id = courses.course_id AND people.first_name = ? AND people.last_name = ? " +
+  "GROUP BY first_name, last_name, about_me, profile_url, course_name";
 
   connection.query(sql, [firstName, lastName], (error, result) => {
     if (error) throw error;
@@ -441,10 +446,11 @@ app.get("/search/:firstName/:lastName", (req, res) => {
 app.get("/search/:course", (req, res) => {
   var course = req.params.course;
 
-  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, GROUP_CONCAT(tutors_times.day_of_the_week SEPARATOR ', ') AS days, GROUP_CONCAT(tutors_times.start_time) AS start_time, GROUP_CONCAT(tutors_times.end_time) AS end_time " +
   "FROM people, tutors, courses, tutors_times, tutors_courses " +
   "WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id AND tutors_courses.tutor_id = tutors.tutor_id " + 
-  "AND tutors_courses.course_id = courses.course_id AND courses.course_name = ?;";
+  "AND tutors_courses.course_id = courses.course_id AND courses.course_name = ? " +
+  "GROUP BY first_name, last_name, about_me, profile_url, course_name";
 
   connection.query(sql, course, (error, result) => {
     if (error) throw error;
@@ -465,9 +471,10 @@ app.get("/reservations/new/:tutorID", (req, res) => {
   var id = req.params.tutorID;
 
   //query
-  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, tutors.tutor_id, GROUP_CONCAT(tutors_times.day_of_the_week SEPARATOR ', ') AS days, GROUP_CONCAT(tutors_times.start_time) AS start_time, GROUP_CONCAT(tutors_times.end_time) AS end_time " +
   "FROM people, tutors, courses, tutors_times, tutors_courses WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id " +
-  "AND tutors_courses.tutor_id = tutors.tutor_id AND tutors_courses.course_id = courses.course_id AND tutors.tutor_id = ?;";
+  "AND tutors_courses.tutor_id = tutors.tutor_id AND tutors_courses.course_id = courses.course_id AND tutors.tutor_id = ? " +
+  "GROUP BY first_name, last_name, about_me, profile_url, course_name, tutors.tutor_id";
 
   connection.query(sql, id, (error, result) => {
     if (error) throw error;
