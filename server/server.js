@@ -460,6 +460,82 @@ app.get("/search/:course", (req, res) => {
   });
 })
 
+//for displaying the appointment
+app.get("/reservations/new/:tutorID", (req, res) => {
+  var id = req.params.tutorID;
+
+  //query
+  const sql = "SELECT first_name, last_name, about_me, profile_url, course_name, start_time, end_time, day_of_the_week, tutors.tutor_id " +
+  "FROM people, tutors, courses, tutors_times, tutors_courses WHERE people.people_id = tutors.people_id AND tutors.tutor_id = tutors_times.tutor_id " +
+  "AND tutors_courses.tutor_id = tutors.tutor_id AND tutors_courses.course_id = courses.course_id AND tutors.tutor_id = ?;";
+
+  connection.query(sql, id, (error, result) => {
+    if (error) throw error;
+    
+    res.json({ tutors: result });
+  });
+})
+
+//previous appointment availability query
+app.get("/reservations/new/confirm/:tutorID/:startTime/:endTime", (req, res) => {
+  //console.log("body: ", req.params);
+	
+  const tutor_id = req.params.tutorID;
+	const start_time = req.params.startTime;
+	const end_time = req.params.endTime;
+
+  const sql = "SELECT * " +
+  "FROM appointments " +
+  "WHERE appointments.tutor_id = ? " +
+  "AND appointments.start_time = ? OR appointments.end_time = ?;";
+
+  connection.query(sql, [tutor_id, start_time, end_time], (error, result) => {
+    if (error) throw error;
+
+    res.json({ previousAppointment: result });
+
+    
+    if (result.length > 0) {
+      console.log(result);
+      console.log("Error, scheduling conflict found. Please choose a different date or time");
+    }
+    else {
+      console.log("No scheduling conflict found");
+    }
+
+  });
+})
+
+app.post("/reservations/reserve", (req, res) => {
+  //console.log("body: ", req.body);
+	
+  const tutor_id = req.body.tutorID;
+  const user_id = req.body.userID;
+	const start_time = req.body.startTime;
+	const end_time = req.body.endTime;
+
+  //console.log(tutorID);
+  //console.log(userID);
+  //console.log(startTime);
+  //console.log(endTime);
+
+  //previous appointment availability query
+  const sql = "INSERT INTO appointments (appointment_name, user_id, tutor_id, course_id, Zoom_URL, start_time, end_time) VALUES " +
+  "(\"New appointment\", ?, ?, (SELECT tutors_courses.course_id FROM tutors_courses WHERE tutors_courses.tutor_id = ?) " +
+   ", \"https://zoom.us/\", ?, ?);"
+
+   console.log("New appointment data");
+   console.log("tutor id: " + tutor_id);
+   console.log("user id: " + user_id);
+   console.log("start time: " + start_time);
+   console.log("end time: " + end_time);
+
+
+  connection.query(sql, [user_id, tutor_id, tutor_id, start_time, end_time], (error, result) => {
+    if (error) throw error;
+  });
+})
+
 // // Show information about one specific reservation
 // app.get("/reservations:id", (req, res) => {
 //     res.json({ 'users': ['userOne', 'userTwo', 'userThree'] })
