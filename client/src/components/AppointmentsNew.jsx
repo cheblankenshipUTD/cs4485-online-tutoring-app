@@ -55,6 +55,7 @@ const AppointmentsNew = () => {
       if ((conflictAppData.previousAppointment === undefined || conflictAppData.previousAppointment == 0) && firstUpdate.current > 2) { //if no app was found with that date and time 
       setReservationStatus(""); //clears the message
         console.log("No confilcts");
+        
         axios.post("http://localhost:8000/reservations/reserve", {
           tutorID: tutorsData.tutors[0].tutor_id,
           userID: user.userORtutor_id,
@@ -64,6 +65,7 @@ const AppointmentsNew = () => {
         localStorage.removeItem("tutorID");
         alert("Success!");
         navigate("/reservations");
+        
       }
       else if (firstUpdate.current > 2) {
         setReservationStatus("Error, scheduling conflict found. Please choose a different date or time");
@@ -71,9 +73,23 @@ const AppointmentsNew = () => {
 
    },[conflictAppData]) // <-- here put the parameter to listen
 
-    const formatDate = (dateString) => {
+    const formatTimes = (dateString) => {
         const options = { weekday:"narrow", hour: 'numeric', minute: 'numeric', hour12: true};
         return (new Date(dateString).toLocaleDateString(undefined, options)).substring(2);
+    }
+
+    const formatAvailableTimes = (days, startTimes, endTimes) => {
+      var tempDays = days.split(", ");
+      var tempStarts = startTimes.split(",");
+      var tempEnds = endTimes.split(",");
+      var format = "";
+  
+      for (var i = 0; i < tempDays.length; i++)
+      {
+        format += tempDays[i] + ": " + formatTimes(tempStarts[i]) + " to " + formatTimes(tempEnds[i]) +"\n\n";
+      }
+  
+      return format;
     }
 
     const formatDay = (dayString) => {
@@ -94,7 +110,7 @@ const AppointmentsNew = () => {
     }
 
     const checkDay = () => {
-      var tutorsDays = tutorsData.tutors[0].day_of_the_week.split(', ');
+      var tutorsDays = tutorsData.tutors[0].days.split(', ');
       var selectedDay = formatDay(dateValue);
       
       for (var i = 0; i < tutorsDays.length; i++)
@@ -106,15 +122,39 @@ const AppointmentsNew = () => {
     }
 
     const checkTime = (timeString) => {
-      var tutorsStartTime = formatTime(tutorsData.tutors[0].start_time).split(', ')[1];
-      var tutorsEndTime = formatTime(tutorsData.tutors[0].end_time).split(', ')[1];
+      var tempTutorsStartTime = tutorsData.tutors[0].start_time.split(',');
+      var tutorStartArray = [];
+      for (var i = 0; i < tempTutorsStartTime.length; i++)
+      {
+        tutorStartArray[i] = formatTime(tempTutorsStartTime[i].split(", ")).split(", ")[1];
+      }
+      
+      var tempTutorsEndTime = tutorsData.tutors[0].end_time.split(',');
+      var tutorEndArray = [];
+      for (var i = 0; i < tempTutorsStartTime.length; i++)
+      {
+        tutorEndArray[i] = formatTime(tempTutorsEndTime[i].split(", ")).split(", ")[1];
+      }
+      
+      var tempTutorsDays = tutorsData.tutors[0].days.split(", ");
+      
+      var selectedDay = formatDay(dateValue);
       var selectedStartTime = timeString.split(' - ')[0];
       var selectedEndTime = timeString.split(' - ')[1]
       
-      if ((selectedStartTime >= tutorsStartTime && selectedStartTime <= tutorsEndTime) && (selectedEndTime >= tutorsStartTime && selectedEndTime <= tutorsEndTime))
-        return true;
-
-      return false;
+      //console.log("tutor start: " + tutorStartArray);
+      //console.log("tutor end: " + tutorEndArray);
+      //console.log("tutor days: " + tempTutorsDays);
+      //console.log("user start: " + selectedStartTime);
+      //console.log("user end: " + selectedEndTime);
+      //console.log("user day: " + selectedDay);
+      
+      for (var i = 0; i < tempTutorsDays.length; i++)
+      {
+        if ((selectedDay == tempTutorsDays[i] && selectedStartTime >= tutorStartArray[i] && selectedStartTime <= tutorEndArray[i]) && (selectedDay == tempTutorsDays[i] && selectedEndTime >= tutorStartArray[i] && selectedEndTime <= tutorEndArray[i]))
+          return true;
+      }
+     return false;
     }
 
     const checkPreviousApp = (timeString) => {
@@ -201,11 +241,12 @@ const AppointmentsNew = () => {
                           </Form.Group>
                         
                         <Card.Title>Select date:</Card.Title>
-                        <Card.Text>Available days of the Week: {tutor.day_of_the_week}</Card.Text>
+                        <Card.Text>Available days of the Week: {tutor.days}</Card.Text>
                         <DatePicker onChange={onChange} format="y-MM-dd" value={dateValue} />
                         
                         <Card.Title>Select time:</Card.Title>
-                        <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
+                        <Card.Text>Times during days available:</Card.Text>
+                        <Card.Text>{formatAvailableTimes(tutor.days, tutor.start_time, tutor.end_time)}</Card.Text>
                           {/* Available time dropdown */}
                           <Form.Group className="mb-3" controlId="formBasicDropDown">
                             <div>Selected time: {availableTimeReg}</div>
