@@ -95,7 +95,7 @@ const TutorsNew = () => {
         <>
             <div className="div-1">
                 <br></br>
-                <h2 style={{ textAlign: "center" }}>Sign Up For Tutor Account</h2>
+                <h2 style={{ textAlign: "center", padding-bottom: "30px" }}>Sign Up For Tutor Account</h2>
             </div>
             
             <Form style = {{margins: "20px"}}>
