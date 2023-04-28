@@ -27,6 +27,7 @@ const Subjects = () => {
                 padding: "30px",
                 backgroundColor: "#ADE377",
                 borderRadius: "25px",
+                margin: "20px"
                 }}
             >
             
