@@ -209,7 +209,7 @@ const Search = () => {
                 }}
             >
             
-              {(typeof tutorsData.tutors === 'undefined') ? (
+              {(typeof tutorsData2.tutors === 'undefined') ? (
               <p>Awaiting search ...</p>
               ): (
                 tutorsData2.tutors?.map((tutor2, i) => (
