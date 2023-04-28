@@ -487,9 +487,10 @@ app.get("/reservations/new/confirm/:tutorID/:startTime/:endTime", (req, res) => 
   const sql = "SELECT * " +
   "FROM appointments " +
   "WHERE appointments.tutor_id = ? " +
-  "AND appointments.start_time = ? OR appointments.end_time = ?;";
+  "AND ((appointments.start_time = ?) OR (? > appointments.start_time AND ? < appointments.end_time)) OR " +
+  "(? > appointments.start_time AND ? < appointments.end_time);";
 
-  connection.query(sql, [tutor_id, start_time, end_time], (error, result) => {
+  connection.query(sql, [tutor_id, start_time, start_time, start_time, end_time, end_time], (error, result) => {
     if (error) throw error;
 
     res.json({ previousAppointment: result });
