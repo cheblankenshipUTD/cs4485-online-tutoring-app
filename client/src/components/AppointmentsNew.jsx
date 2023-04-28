@@ -111,7 +111,7 @@ const AppointmentsNew = () => {
       var selectedStartTime = timeString.split(' - ')[0];
       var selectedEndTime = timeString.split(' - ')[1]
       
-      if ((selectedStartTime >= tutorsStartTime && selectedStartTime <= tutorsEndTime) && (selectedEndTime >= tutorsEndTime && selectedEndTime <= tutorsEndTime))
+      if ((selectedStartTime >= tutorsStartTime && selectedStartTime <= tutorsEndTime) && (selectedEndTime >= tutorsStartTime && selectedEndTime <= tutorsEndTime))
         return true;
 
       return false;
