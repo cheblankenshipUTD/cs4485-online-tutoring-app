@@ -98,7 +98,7 @@ const TutorsNew = () => {
                 <h2 style={{ textAlign: "center" }}>Sign Up For Tutor Account</h2>
             </div>
             
-            <Form>
+            <Form style = {{margins: "20px"}}>
                 {/* Email */}
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
