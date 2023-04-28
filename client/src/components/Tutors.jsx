@@ -41,6 +41,7 @@ const Tutors = () => {
    //alert(`isUserOrLoggedOut: ${isUserOrLoggedOut}`);
 
   const handleSchedule = (e) => {
+    localStorage.setItem("tutorID", JSON.stringify(e));
     navigate("/reservations/new");
   }
 
@@ -112,7 +113,7 @@ const Tutors = () => {
                         <Card.Text>Times during days available: {formatDate(tutor.start_time)} to {formatDate(tutor.end_time)}</Card.Text>
                         <>
                         {isUserOrLoggedOut &&  
-                          <Button onClick={handleSchedule} variant="primary">Schedule</Button>
+                          <Button onClick={e => handleSchedule(tutor.tutor_id)} variant="primary">Schedule</Button>
                         }
                         </>
                         &ensp;
