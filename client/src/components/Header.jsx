@@ -108,12 +108,6 @@ function Header() {
 
               <>
                 {!isLoggedIn &&  
-                  <Nav.Link href="/users/new">Register</Nav.Link>
-                }
-              </>
-
-              <>
-                {!isLoggedIn &&  
                   <Nav.Link href="/tutors/new">Become a Tutor</Nav.Link>
                 }
               </>

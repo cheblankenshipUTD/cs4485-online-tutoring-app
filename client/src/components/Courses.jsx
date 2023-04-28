@@ -36,24 +36,25 @@ const Subjects = () => {
               ): (
                 coursesData.courses.map((course, i) => (
                   // <p key={i}>{tutor.name}</p>
-                  <Col xs="4">
-                    <Card
-                    key={i}
-                    style={{
-                      backgroundColor: "#FEA150",
-                      color: "white",
-                      borderRadius: "25px",
-                    }}
-                    >
-                      <Card.Header>
-                      <span>Course: {course.course_name}</span>
-                      </Card.Header>
-                      <Card.Body>
-                        <Card.Title>Description</Card.Title>
-                        <Card.Text>{course.course_description}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                    <Col xs="4" className="p-2">
+                      <Card
+                      key={i}
+                      style={{
+                        backgroundColor: "#FEA150",
+                        color: "white",
+                        borderRadius: "25px",
+                      }}
+                      >
+                        <Card.Header>
+                        <span>Course: {course.course_name}</span>
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Title>Description</Card.Title>
+                          <Card.Text>{course.course_description}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+
               ))
               )}
           </Row>

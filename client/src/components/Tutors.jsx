@@ -98,7 +98,7 @@ const Tutors = () => {
               <p>Loading ...</p>
               ): (
                 tutorsData.tutors.map((tutor, i) => (
-                  <Col xs="4">
+                  <Col xs="4" className="p-2">
                     <Card
                     key={i}
                     style={{

@@ -40,7 +40,7 @@ const Appointments = () => {
               <p>Loading ...</p>
               ): (
                 appointmentsData.appointments.map((appointment, i) => (
-                  <Col xs="5">
+                  <Col xs="5" className="p-2">
                     <Card
                     key={i}
                     style={{
