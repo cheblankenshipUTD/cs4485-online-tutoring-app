@@ -48,7 +48,7 @@ VALUES
 (40, '2023-01-17 04:00:00', '2023-05-05 06:00:00', 'Monday'),
 (40, '2023-01-17 04:00:00', '2023-05-05 06:00:00', 'Thursday'),
 (50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Tuesday'),
-(50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Thuesday');
+(50, '2023-01-17 08:30:00', '2023-05-05 09:30:00', 'Thursday');
 
 -- Mock data for tutors_courses (5 sets; 1 set for each tutor)
 INSERT INTO tutors_courses (tutor_id, course_id)
