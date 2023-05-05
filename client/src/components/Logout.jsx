@@ -31,8 +31,8 @@ const Login = () => {
         </div>
 
         <div className="login-wrapper">
-          <Button className="w-100 mb-5 original-logout" onClick={() => handleLogout()}>Logout (original logout button)</Button>
-          <Button className="w-100 mb-3 btn btn-danger" onClick={() => handleLogout2()}>Logout (new auth0 logout button)</Button>
+          {/* <Button className="w-100 mb-5 original-logout" onClick={() => handleLogout()}>Logout (original logout button)</Button> */}
+          <Button className="w-100 mb-3 btn btn-danger" onClick={() => handleLogout2()}>Logout</Button>
         </div>
         </MDBCol>
       </MDBRow>
