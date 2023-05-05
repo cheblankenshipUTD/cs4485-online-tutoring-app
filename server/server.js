@@ -53,8 +53,8 @@ app.post("/login", (req, res) => {
           console.log("user from database >> ", user);
 
           if (user) {
-            //const validPassword = bcrypt.compareSync(password, user.password); //check the hashed password
-            const validPassword = password;
+            const validPassword = bcrypt.compareSync(password, user.password); //check the hashed password
+            // const validPassword = password;
 
             //if the passwords match
             if(validPassword) {
