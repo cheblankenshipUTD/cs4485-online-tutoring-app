@@ -90,7 +90,7 @@ const Welcome = () => {
           </div>
           
           {/* // manually create new DB person entry, temp button */}
-          <Button className= "mb-4 mt-4" onClick={() => newPerson()}>Database Create Person Manual (TEMP)</Button>
+          <Button className= "mb-4 mt-4" onClick={() => newPerson()}>Database Create Person Manual (DEV DEBUGGING)</Button>
           
         </MDBCol>
       </MDBRow>

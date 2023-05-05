@@ -47,7 +47,7 @@ const Login = () => {
           {/* Original Login Form */}
           <Accordion className="mt-5 w-100 mb-5">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Original Login Form</Accordion.Header>
+              <Accordion.Header>Deprecated Login Form</Accordion.Header>
               <Accordion.Body>
                 <form className="d-flex flex-column ms-5 me-5" onSubmit={handleSubmit}>
                   <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' required onChange={(e) => setEmail(e.target.value)}/>
